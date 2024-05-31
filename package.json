@@ -1,13 +1,14 @@
 {
   "name": "skiyo",
   "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
+  "description": "Framework to find the best strategy for the game.",
+  "main": "dist/src/index.js",
   "scripts": {
-    "dev": "npx nodemon",
+    "dev": "nodemon",
     "test": "jest",
+    "test:watch": "jest --watchAll",
     "build": "rimraf ./build && tsc",
-    "start": "npm run build && node dist/index.js",
+    "start": "npm run build && node dist/src/index.js",
     "format": "npx prettier . --write"
   },
   "keywords": [],
