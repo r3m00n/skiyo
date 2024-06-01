@@ -1,10 +1,11 @@
 import { simulateGame } from './game';
-import { randomBot as bot1 } from './bots/random';
-import { gptBot as bot2 } from './bots/chatgpt';
-import { showStats } from './game/show-stats';
 
-const results: { player1won: boolean; scoreP1: number; scoreP2: number }[] = [];
-for (let i = 0; i < 10; i++) {
-  results.push(simulateGame(bot1, bot2));
+const results: number[] = [];
+for (let i = 0; i < 1000; i++) {
+  results.push(simulateGame());
 }
-showStats(results);
+const average = results.reduce((a, b) => a + b, 0) / results.length;
+const max = Math.max(...results);
+const min = Math.min(...results);
+
+console.log(`Average: ${average}, Max: ${max}, Min: ${min}`);
