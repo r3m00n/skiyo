@@ -1,5 +1,5 @@
 import { Deck, SystemBoard } from '@/types';
-import { clearColumns } from '../src/utils/clear-columns';
+import { clearColumns } from '@/src/utils/clear-columns';
 
 describe('Clear Columns', () => {
   //   let { deck, board } = dealCards(createDeck());

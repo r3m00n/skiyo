@@ -8,7 +8,7 @@ import {
   findHighestCard,
   findHigherThan,
   oneMissing,
-} from '../src/utils/game-helpers';
+} from '@/src/utils/game-helpers';
 
 describe('coinFlip', () => {
   it('should return a random boolean', () => {

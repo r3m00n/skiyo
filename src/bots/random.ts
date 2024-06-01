@@ -5,7 +5,7 @@ import {
   flippableLocation,
   nothingToFlip,
   randomIndex,
-} from '../utils/game-helpers';
+} from '@/utils/game-helpers';
 
 /**
  * Bot that makes random decisions

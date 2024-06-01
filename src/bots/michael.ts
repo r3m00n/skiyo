@@ -3,7 +3,7 @@ import {
   isGameStart,
   flippableLocation,
   findHighestCard,
-} from '../utils/game-helpers';
+} from '@/utils/game-helpers';
 
 /**
  

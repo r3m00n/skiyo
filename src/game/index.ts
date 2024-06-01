@@ -1,15 +1,15 @@
 import { Card, Deck, DiscardPile, SystemBoard } from '@/types';
 import { createDeck } from '@/utils/create-deck';
-import { shuffleDeck } from '../utils/shuffle-deck';
-import { dealCards } from '../utils/deal-cards';
-import { showBoard } from '../utils/show-board';
-import { convertToBoard } from '../utils/convert-to-board';
-import { clearColumns } from '../utils/clear-columns';
-import { currentScore } from '../utils/current-score';
-import { randomBot } from '../bots/random';
-import { gptBot } from '../bots/gpt';
-import { isGameStart, nothingToFlip } from '../utils/game-helpers';
-import { rushBot } from '../bots/rush';
+import { shuffleDeck } from '@/utils/shuffle-deck';
+import { dealCards } from '@/utils/deal-cards';
+import { showBoard } from '@/utils/show-board';
+import { convertToBoard } from '@/utils/convert-to-board';
+import { clearColumns } from '@/utils/clear-columns';
+import { currentScore } from '@/utils/current-score';
+import { randomBot } from '@/bots/random';
+import { gptBot } from '@/bots/gpt';
+import { isGameStart, nothingToFlip } from '@/utils/game-helpers';
+import { rushBot } from '@/bots/rush';
 
 export const simulateGame = (DEBUG = false): number => {
   // Define Variables
