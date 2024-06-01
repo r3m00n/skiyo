@@ -1,47 +1,15 @@
-import { Board, Card, Deck, DiscardPile, SystemBoard, Turn } from '@/types';
+import { Card, Deck, DiscardPile, SystemBoard } from '@/types';
 import { createDeck } from '../utils/create-deck';
 import { shuffleDeck } from '../utils/shuffle-deck';
 import { dealCards } from '../utils/deal-cards';
+import { showBoard } from '../utils/show-board';
 import { convertToBoard } from '../utils/convert-to-board';
+import { clearColumns } from '../utils/clear-columns';
 import { currentScore } from '../utils/current-score';
-import { turnAllCards } from '../utils/turn-all-cards';
+import { randomBot } from '../bots/random';
 import { isGameStart, nothingToFlip } from '../utils/game-helpers';
-import { handleTurn } from './handleTurn';
 
-interface SimulateGameProps {
-  bot1: (
-    yourBoard: Board,
-    opponentBoard: Board,
-    discardCard: Card,
-    drawCard: Card,
-    discardPile: DiscardPile
-  ) => Turn;
-  bot2: (
-    yourBoard: Board,
-    opponentBoard: Board,
-    discardCard: Card,
-    drawCard: Card,
-    discardPile: DiscardPile
-  ) => Turn;
-}
-
-// export const simulateGame = ({ bot1, bot2 }: SimulateGameProps) => {
-export const simulateGame = (
-  bot1: (
-    yourBoard: Board,
-    opponentBoard: Board,
-    discardCard: Card,
-    drawCard: Card,
-    discardPile: DiscardPile
-  ) => Turn,
-  bot2: (
-    yourBoard: Board,
-    opponentBoard: Board,
-    discardCard: Card,
-    drawCard: Card,
-    discardPile: DiscardPile
-  ) => Turn
-) => {
+export const simulateGame = (DEBUG = false): number => {
   // Define Variables
   let deck: Deck = [];
   let discardPile: DiscardPile = [];
@@ -56,8 +24,8 @@ export const simulateGame = (
   deck = shuffleDeck(deck);
 
   // Deal Cards
-  ({ deck, board: boardP1 } = dealCards(deck));
-  ({ deck, board: boardP2 } = dealCards(deck));
+  ({ deck: deck, board: boardP1 } = dealCards(deck));
+  ({ deck: deck, board: boardP2 } = dealCards(deck));
   // TODO: write test to see if deck now has correct length (it does)
 
   // push one card to discard pile
@@ -72,81 +40,101 @@ export const simulateGame = (
       turnCount++;
     }
 
-    if (player1Turn) {
-      const { action, location } = bot1(
-        convertToBoard(boardP1),
-        convertToBoard(boardP2),
-        discardPile[discardPile.length - 1],
-        drawCard,
-        discardPile
+    // get bot's turn
+    const { action, location } = randomBot(
+      convertToBoard(boardP1),
+      convertToBoard(boardP2),
+      discardPile[discardPile.length - 1],
+      drawCard,
+      discardPile
+    );
+
+    if (DEBUG) {
+      console.log(
+        `Turn ${turnCount} - action: ${action} ${location !== undefined ? '- location ' + location : ''}`
       );
-
-      ({
-        board: boardP1,
-        discardPile,
-        drawCard,
-        deck,
-        turnCount,
-        gameRunning,
-        player1Turn,
-      } = handleTurn(
-        action,
-        location,
-        boardP1,
-        discardPile,
-        drawCard,
-        deck,
-        turnCount,
-        player1Turn
-      ));
-
-      // check if game is over
-      if (nothingToFlip(convertToBoard(boardP1))) {
-        gameRunning = false;
-        break;
-      }
-    } else {
-      const { action, location } = bot2(
-        convertToBoard(boardP2),
-        convertToBoard(boardP1),
-        discardPile[discardPile.length - 1],
-        drawCard,
-        discardPile
+      console.log(
+        `Score: ${currentScore(boardP1)} - DiscardCard: ${discardPile[discardPile.length - 1]} - DrawCard: ${drawCard}`
       );
+      showBoard(convertToBoard(boardP1));
+      console.log('after');
+    }
 
-      ({
-        board: boardP2,
-        discardPile,
-        drawCard,
-        deck,
-        turnCount,
-        gameRunning,
-        player1Turn,
-      } = handleTurn(
-        action,
-        location,
-        boardP2,
-        discardPile,
-        drawCard,
-        deck,
-        turnCount,
-        player1Turn
-      ));
+    // Check if flipped at game start
+    if (isGameStart(convertToBoard(boardP1)) && action !== 'flip') {
+      throw new Error('Flip action is required at game start');
+    }
 
-      // check if game is over
-      if (nothingToFlip(convertToBoard(boardP2))) {
-        gameRunning = false;
+    // handle action
+    switch (action) {
+      case 'draw':
+        if (drawCard) {
+          throw new Error('Draw card already exists');
+        }
+
+        drawCard = deck.pop();
+        turnCount--;
         break;
-      }
+
+      case 'takeFromDrawPile':
+        if (!location) {
+          throw new Error('Location is required to takeFromDrawPile');
+        }
+
+        if (drawCard == undefined) {
+          throw new Error('Draw card is required to takeFromDrawPile');
+        }
+
+        boardP1[location[0]][location[1]].value = drawCard as number;
+        boardP1[location[0]][location[1]].isShown = true;
+
+        drawCard = undefined;
+        break;
+
+      case 'takeFromDiscardPile':
+        if (!location) {
+          throw new Error('Location is required to takeFromDiscardPile');
+        }
+
+        boardP1[location[0]][location[1]].value = discardPile.pop() as number;
+        boardP1[location[0]][location[1]].isShown = true;
+        break;
+
+      case 'flip':
+        if (!location) {
+          throw new Error('Location is required to flip');
+        }
+
+        if (boardP1[location[0]][location[1]].isShown) {
+          throw new Error('Card is already shown');
+        }
+
+        boardP1[location[0]][location[1]].isShown = true;
+        break;
+
+      default:
+        throw new Error('Invalid action');
+    }
+
+    DEBUG && showBoard(convertToBoard(boardP1));
+
+    // clear columns
+    clearColumns(boardP1);
+
+    // check if game is over
+    if (nothingToFlip(convertToBoard(boardP1))) {
+      gameRunning = false;
+      break;
+    }
+
+    // put draw card on discard pile if not used
+    if (drawCard !== undefined && action !== 'draw') {
+      discardPile.push(drawCard);
+      drawCard = undefined;
+    } else if (!isGameStart(convertToBoard(boardP1))) {
+      // put deck card on discard pile
+      discardPile.push(deck.pop() as number);
     }
   }
-
-  // TODO: handle empty draw pile
-  turnAllCards(boardP1);
-  turnAllCards(boardP2);
-
-  const scoreP1 = currentScore(boardP1);
-  const scoreP2 = currentScore(boardP2);
-  console.log('Player 1:', scoreP1);
-  return { player1won: scoreP1 > scoreP2, scoreP1, scoreP2 };
+  return currentScore(boardP1);
 };
