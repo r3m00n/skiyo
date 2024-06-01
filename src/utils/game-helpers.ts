@@ -63,3 +63,30 @@ export const isGameStart = (board: Board): boolean => {
 
   return true;
 };
+
+export const findHighestCard = (board: Board): [number, number] => {
+  let highestCard = 0;
+  let highestCardLocation: [number, number] = [0, 0];
+
+  board.forEach((column, columnIndex) => {
+    column.forEach((card, cardIndex) => {
+      if (card !== undefined && card > highestCard) {
+        highestCard = card;
+        highestCardLocation = [columnIndex, cardIndex];
+      }
+    });
+  });
+
+  return highestCardLocation;
+};
+
+export const findHigherThan = (
+  board: Board,
+  value: number
+): [number, number] | null => {
+  const location = findHighestCard(board);
+  if (board[location[0]][location[1]]! > value) {
+    return location;
+  }
+  return null;
+};
