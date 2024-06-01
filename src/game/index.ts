@@ -1,5 +1,5 @@
 import { Card, Deck, DiscardPile, SystemBoard } from '@/types';
-import { createDeck } from '../utils/create-deck';
+import { createDeck } from '@/utils/create-deck';
 import { shuffleDeck } from '../utils/shuffle-deck';
 import { dealCards } from '../utils/deal-cards';
 import { showBoard } from '../utils/show-board';
