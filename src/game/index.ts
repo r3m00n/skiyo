@@ -9,6 +9,7 @@ import { currentScore } from '../utils/current-score';
 import { randomBot } from '../bots/random';
 import { gptBot } from '../bots/gpt';
 import { isGameStart, nothingToFlip } from '../utils/game-helpers';
+import { rushBot } from '../bots/rush';
 
 export const simulateGame = (DEBUG = false): number => {
   // Define Variables
@@ -42,7 +43,7 @@ export const simulateGame = (DEBUG = false): number => {
     }
 
     // get bot's turn
-    const { action, location } = randomBot(
+    const { action, location } = rushBot(
       convertToBoard(boardP1),
       convertToBoard(boardP2),
       discardPile[discardPile.length - 1],
