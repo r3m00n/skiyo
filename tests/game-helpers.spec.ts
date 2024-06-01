@@ -5,6 +5,9 @@ import {
   nothingToFlip,
   flippableLocation,
   isGameStart,
+  findHighestCard,
+  findHigherThan,
+  oneMissing,
 } from '../src/utils/game-helpers';
 
 describe('coinFlip', () => {
@@ -73,24 +76,59 @@ describe('flippableLocation', () => {
   });
 });
 
-describe('isGameStart', () => {
-  it('should return true if bot has to flip one of its initial two cards', () => {
-    const board: Board = [
-      [undefined, undefined, 3],
-      [4, 5, 6],
-      [7, 8, 9],
-    ];
-    const result = isGameStart(board);
-    expect(result).toBe(true);
-  });
-
-  it('should return false if bot does not have to flip one of its initial two cards', () => {
+describe('findHighestCard', () => {
+  it('should return the location of the highest card on the board', () => {
     const board: Board = [
       [1, undefined, 3],
       [4, 5, 6],
       [7, 8, 9],
     ];
-    const result = isGameStart(board);
-    expect(result).toBe(false);
+    const result = findHighestCard(board);
+    expect(result).toEqual([2, 2]);
+  });
+
+  it('should return the first highest card location if there are multiple highest cards', () => {
+    const board: Board = [
+      [1, undefined, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+      [undefined, undefined, 9],
+    ];
+    const result = findHighestCard(board);
+    expect(result).toEqual([2, 2]);
+  });
+
+  it('should return [0, 0] if the board is empty', () => {
+    const board: Board = [
+      [undefined, undefined, undefined],
+      [undefined, undefined, undefined],
+      [undefined, undefined, undefined],
+    ];
+    const result = findHighestCard(board);
+    expect(result).toEqual([0, 0]);
+  });
+});
+
+describe('findHigherThan', () => {
+  it('should return the location of a card higher than the given value', () => {
+    const board: Board = [
+      [1, undefined, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ];
+    const value = 5;
+    const result = findHigherThan(board, value);
+    expect(result).toEqual([2, 2]);
+  });
+
+  it('should return null if there is no card higher than the given value', () => {
+    const board: Board = [
+      [1, undefined, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ];
+    const value = 10;
+    const result = findHigherThan(board, value);
+    expect(result).toBeNull();
   });
 });
