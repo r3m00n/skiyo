@@ -1,7 +1,7 @@
 import { Board, Card, DiscardPile, Turn } from '@/types';
 import {
   coinFlip,
-  isGameStart as isFlipPhase,
+  isGameStart,
   flippableLocation,
   nothingToFlip,
   randomIndex,
@@ -25,7 +25,7 @@ export const randomBot = (
   discardPile: DiscardPile
 ): Turn => {
   // flip random cards at game start
-  if (isFlipPhase(yourBoard)) {
+  if (isGameStart(yourBoard)) {
     return { action: 'flip', location: flippableLocation(yourBoard) };
   }
 

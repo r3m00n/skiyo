@@ -22,8 +22,9 @@ import { currentScore } from '../utils/current-score';
 import { randomBot } from '../bots/random';
 import { turnAllCards } from '../utils/turn-all-cards';
 import { isGameStart, nothingToFlip } from '../utils/game-helpers';
+import { gptBot } from '../bots/chatgpt';
 
-const simulateGame = (DEBUG = false): number => {
+export const simulateGame = (DEBUG = false): number => {
   // Define Variables
   let deck: Deck = [];
   let discardPile: DiscardPile = [];
@@ -55,7 +56,7 @@ const simulateGame = (DEBUG = false): number => {
     }
 
     // get bot's turn
-    const { action, location } = randomBot(
+    const { action, location } = gptBot(
       convertToBoard(boardP1),
       convertToBoard(boardP2),
       discardPile[discardPile.length - 1],
