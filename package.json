@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "test": "jest",
-    "test:watch": "jest --watchAll",
+    "test:watch": "jest --watch",
     "build": "rimraf ./build && tsc",
     "start": "npm run build && node dist/src/index.js",
     "format": "npx prettier . --write"

@@ -18,6 +18,6 @@ export type SystemColumn = [SystemCard, SystemCard, SystemCard];
 export type SystemBoard = SystemColumn[];
 
 export type Turn = {
-  action: 'discardPile' | 'draw' | 'drawPile' | 'flip';
-  location: [number, number];
+  action: 'takeFromDiscardPile' | 'draw' | 'takeFromDrawPile' | 'flip';
+  location?: [number, number];
 };

@@ -9,11 +9,12 @@ import { Deck, SystemBoard, SystemCard, SystemColumn } from '@/types';
 export const dealCards = (deck: Deck): { deck: Deck; board: SystemBoard } => {
   const board: SystemBoard = [];
 
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 2; i++) {
+    // for (let i = 0; i < 4; i++) {
     const column = [];
 
     for (let j = 0; j < 3; j++) {
-      const card: SystemCard = { value: deck.shift()!, isShown: false };
+      const card: SystemCard = { value: deck.pop()!, isShown: false };
       column.push(card);
     }
 
