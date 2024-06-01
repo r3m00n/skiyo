@@ -7,6 +7,7 @@ import { convertToBoard } from '../utils/convert-to-board';
 import { clearColumns } from '../utils/clear-columns';
 import { currentScore } from '../utils/current-score';
 import { randomBot } from '../bots/random';
+import { gptBot } from '../bots/gpt';
 import { isGameStart, nothingToFlip } from '../utils/game-helpers';
 
 export const simulateGame = (DEBUG = false): number => {
@@ -107,6 +108,10 @@ export const simulateGame = (DEBUG = false): number => {
 
         if (boardP1[location[0]][location[1]].isShown) {
           throw new Error('Card is already shown');
+        }
+
+        if (!isGameStart(convertToBoard(boardP1)) && drawCard == undefined) {
+          throw new Error('You must draw a card before flipping');
         }
 
         boardP1[location[0]][location[1]].isShown = true;
