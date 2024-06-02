@@ -21,3 +21,16 @@ export type Turn = {
   action: 'takeFromDiscardPile' | 'draw' | 'takeFromDrawPile' | 'flip';
   location?: [number, number];
 };
+
+export type Result = {
+  points1: number;
+  points2: number;
+};
+
+export type Bot = (
+  yourBoard: Board,
+  opponentBoard: Board,
+  discardCard: number,
+  drawCard: Card,
+  discardPile: DiscardPile
+) => Turn;

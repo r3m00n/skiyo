@@ -1,11 +1,9 @@
+// import { michaelBot as Bot1 } from './bots/michael';
+import { rushBot as Bot2 } from './bots/rush';
+import { randomBot as Bot1 } from './bots/random';
+
 import { simulateGame } from './game';
+import { showResults } from './game/showResults';
 
-const results: number[] = [];
-for (let i = 0; i < 1000; i++) {
-  results.push(simulateGame());
-}
-const average = results.reduce((a, b) => a + b, 0) / results.length;
-const max = Math.max(...results);
-const min = Math.min(...results);
-
-console.log(`Average: ${average}, Max: ${max}, Min: ${min}`);
+const resulsts = simulateGame(Bot1, Bot2, 1000);
+showResults(resulsts);
