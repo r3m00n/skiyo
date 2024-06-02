@@ -1,4 +1,4 @@
-import { Board } from '@/types';
+import { Board, SystemBoard } from '@/types';
 
 /**
  * Returns a random boolean.
@@ -64,6 +64,12 @@ export const isGameStart = (board: Board): boolean => {
   return true;
 };
 
+/**
+ * Returns the location of the highest card on the board.
+ *
+ * @param board - The game board.
+ * @returns The location of the highest card on the board.
+ */
 export const findHighestCard = (board: Board): [number, number] => {
   let highestCard = 0;
   let highestCardLocation: [number, number] = [0, 0];
@@ -80,6 +86,13 @@ export const findHighestCard = (board: Board): [number, number] => {
   return highestCardLocation;
 };
 
+/**
+ * Returns the locaion of the highest card that's higher than the given value.
+ *
+ * @param board Your Board
+ * @param value Number to compare
+ * @returns
+ */
 export const findHigherThan = (
   board: Board,
   value: number
@@ -89,4 +102,22 @@ export const findHigherThan = (
     return location;
   }
   return null;
+};
+
+/**
+ * Calculates the current score of a board.
+ *
+ * @param board The board to calculate the score from.
+ * @returns The current score.
+ */
+export const currentScore = (board: Board): number => {
+  let score = 0;
+
+  board.forEach((column) => {
+    column.forEach((card) => {
+      if (card !== undefined) score += card;
+    });
+  });
+
+  return score;
 };

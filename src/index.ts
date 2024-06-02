@@ -1,11 +1,6 @@
-import { michaelBot as Bot1 } from './bots/michael';
-import { randomBot } from './bots/random';
-import { rushBot as Bot2 } from './bots/rush';
-import { gptBot } from './bots/gpt';
-import { pickyBot } from './bots/picky';
+import { battle } from '@/game/battle';
+import { showResult } from '@/game/show-result';
+import { randomBot } from './bot/random';
+import { rushBot } from './bot/rush';
 
-import { simulateGame } from './game';
-import { showResults } from './game/showResults';
-
-const resulsts = simulateGame(Bot1, Bot2, 1000);
-showResults(resulsts);
+showResult(battle(randomBot, rushBot, 1));
