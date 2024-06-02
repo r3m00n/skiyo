@@ -20,13 +20,16 @@ import {
 export const randomBot = (
   yourBoard: Board,
   opponentBoard: Board,
-  discardCard: Card,
+  discardCard: number,
   drawCard: Card,
   discardPile: DiscardPile
 ): Turn => {
   // flip random cards at game start
   if (isGameStart(yourBoard)) {
-    return { action: 'flip', location: flippableLocation(yourBoard) };
+    return {
+      action: 'flip',
+      location: flippableLocation(yourBoard),
+    };
   }
 
   // not yet drawn

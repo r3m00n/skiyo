@@ -11,7 +11,10 @@ export const showBoard = (board: Board | SystemBoard): void => {
   if (typeof board[0][0] == 'object') {
     newBoard = (board as SystemBoard).map((column) => {
       return column.map((card) => {
-        return card.value;
+        if (card.isShown) {
+          return card.value;
+        }
+        return undefined;
       }) as Column;
     });
   } else {
@@ -21,6 +24,12 @@ export const showBoard = (board: Board | SystemBoard): void => {
   console.log(newBoard);
 };
 
+/**
+ * Displays both boards.
+ *
+ * @param boardP1 - The board of player 1.
+ * @param boardP2 - The board of player 2.
+ */
 export const showBothBoards = (
   boardP1: Board | SystemBoard,
   boardP2: Board | SystemBoard
@@ -31,10 +40,21 @@ export const showBothBoards = (
   showBoard(boardP2);
 };
 
+/**
+ * Displays a board.
+ *
+ * @param board - The board to display.
+ */
 export const showSystemBoard = (board: SystemBoard): void => {
   console.log(board);
 };
 
+/**
+ * Displays both system boards.
+ *
+ * @param boardP1 - The system board of player 1.
+ * @param boardP2 - The system board of player 2.
+ */
 export const showBothSystemBoards = (
   boardP1: SystemBoard,
   boardP2: SystemBoard
