@@ -1,5 +1,6 @@
 import { Card, Deck, SystemBoard, Turn } from '@/types';
 import { validateTurn } from './validate-turn';
+import { shuffleDeck } from '@/utils/system-helpers';
 
 export const handleTurn = (
   turn: Turn,
@@ -21,20 +22,29 @@ export const handleTurn = (
 
   switch (action) {
     case 'takeFromDiscardPile':
+      const cardForDiscardPile = board[location![0]][location![1]].value;
       board[location![0]][location![1]].value = discardPile.pop() as number;
       board[location![0]][location![1]].isShown = true;
+      discardPile.push(cardForDiscardPile);
       break;
 
     case 'draw':
       drawCard = deck.pop() as number;
-      // TODO: handle empty deck
+      // handle empty deck
+      if (deck.length === 0) {
+        const topCard = discardPile[discardPile.length - 1];
+        deck = shuffleDeck(discardPile.slice(0, discardPile.length - 2));
+        discardPile = [topCard];
+      }
       break;
 
     case 'takeFromDrawPile':
+      const tmp2 = board[location![0]][location![1]].value;
       board[location![0]][location![1]].value = drawCard as number;
       board[location![0]][location![1]].isShown = true;
+      discardPile.push(tmp2);
       drawCard = undefined;
-      // TODO: put card from board on discard pile
+      // REFACTOR: make drawn card tmp
       break;
 
     case 'flip':

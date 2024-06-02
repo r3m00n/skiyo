@@ -145,3 +145,39 @@ export const isGameStart = (board: SystemBoard): boolean => {
 
   return true;
 };
+
+/**
+ * Returns true if there is nothing to flip.
+ *
+ * @param board - The game board.
+ * @returns true if there is nothing to flip.
+ */
+export const allTurned = (board: SystemBoard): boolean => {
+  for (const column of board) {
+    for (const card of column) {
+      if (!card.isShown) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+};
+
+/**
+ * Calculates total score of board.
+ *
+ * @param board The board to count.
+ * @returns The score.
+ */
+export const score = (board: SystemBoard): number => {
+  let score = 0;
+
+  for (const column of board) {
+    for (const card of column) {
+      score += card.value;
+    }
+  }
+
+  return score;
+};

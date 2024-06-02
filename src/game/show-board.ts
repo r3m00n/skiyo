@@ -11,7 +11,10 @@ export const showBoard = (board: Board | SystemBoard): void => {
   if (typeof board[0][0] == 'object') {
     newBoard = (board as SystemBoard).map((column) => {
       return column.map((card) => {
-        return card.value;
+        if (card.isShown) {
+          return card.value;
+        }
+        return undefined;
       }) as Column;
     });
   } else {
