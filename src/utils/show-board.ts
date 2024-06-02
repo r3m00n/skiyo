@@ -20,3 +20,27 @@ export const showBoard = (board: Board | SystemBoard): void => {
 
   console.log(newBoard);
 };
+
+export const showBothBoards = (
+  boardP1: Board | SystemBoard,
+  boardP2: Board | SystemBoard
+): void => {
+  console.log('Player 1: ');
+  showBoard(boardP1);
+  console.log('Player 2: ');
+  showBoard(boardP2);
+};
+
+export const showSystemBoard = (board: SystemBoard): void => {
+  console.log(board);
+};
+
+export const showBothSystemBoards = (
+  boardP1: SystemBoard,
+  boardP2: SystemBoard
+): void => {
+  console.log('Player 1: ');
+  console.log(boardP1);
+  console.log('Player 2: ');
+  console.log(boardP2);
+};

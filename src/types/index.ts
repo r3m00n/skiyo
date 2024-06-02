@@ -18,6 +18,19 @@ export type SystemColumn = [SystemCard, SystemCard, SystemCard];
 export type SystemBoard = SystemColumn[];
 
 export type Turn = {
-  action: 'discardPile' | 'draw' | 'drawPile' | 'flip';
-  location: [number, number];
+  action: 'takeFromDiscardPile' | 'draw' | 'takeFromDrawPile' | 'flip';
+  location?: [number, number];
 };
+
+export type Result = {
+  points1: number;
+  points2: number;
+};
+
+export type Bot = (
+  yourBoard: Board,
+  opponentBoard: Board,
+  discardCard: number,
+  drawCard: Card,
+  discardPile: DiscardPile
+) => Turn;

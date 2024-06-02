@@ -1,4 +1,4 @@
-import { createDeck } from '../src/utils/create-deck';
+import { createDeck } from '@/src/utils/create-deck';
 
 describe('createDeck', () => {
   const deck = createDeck();
