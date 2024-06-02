@@ -18,7 +18,7 @@ Bot that makes random decisions*
 export const michaelBot = (
   yourBoard: Board,
   opponentBoard: Board,
-  discardCard: Card,
+  discardCard: number,
   drawCard: Card,
   discardPile: DiscardPile
 ): Turn => {
@@ -33,25 +33,12 @@ export const michaelBot = (
 
   // not yet drawn
   if (!drawCard) {
-    if (discardCard) {
-      // bringt nix
-      // const missing_one = oneMissing(yourBoard, discardCard)
-      // if (missing_one) {
-      //   return { action: 'takeFromDiscardPile', location: missing_one };
-      // }
-
-      // const missing_two = twoMissing(yourBoard, discardCard)
-      // if (missing_two) {
-      //   return { action: 'takeFromDiscardPile', location: missing_two };
-      // }
-
-      if (discardCard < 4) {
-        // Take from discard pile if card is less than 4
-        return {
-          action: 'takeFromDiscardPile',
-          location: flippableLocation(yourBoard),
-        };
-      }
+    if (discardCard < 4) {
+      // Take from discard pile if card is less than 4
+      return {
+        action: 'takeFromDiscardPile',
+        location: flippableLocation(yourBoard),
+      };
     }
 
     return { action: 'draw' };
