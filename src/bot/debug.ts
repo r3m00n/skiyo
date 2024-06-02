@@ -5,6 +5,9 @@ import {
   randomIndex,
 } from '@/utils/game-helpers';
 
+/**
+ * Bot that never finishes
+ */
 export const debugBot = (
   yourBoard: Board,
   opponentBoard: Board,

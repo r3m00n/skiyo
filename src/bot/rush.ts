@@ -4,7 +4,7 @@ import { isGameStart, flippableLocation } from '@/utils/game-helpers';
 const NOICE = 4;
 
 /**
- * Bot that makes random decisions
+ * Bot that finishes asap
  *
  * @param yourBoard
  * @param opponentBoard

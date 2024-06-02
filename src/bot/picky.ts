@@ -6,19 +6,15 @@ import {
 } from '@/utils/game-helpers';
 import { currentScore } from '@/utils/game-helpers';
 
-const NOICE = -1;
-const EXPECTED_SCORE = -10;
+/* Insane Rerults even tho a little
+   unrealistic in real life ^^ */
+// const NOICE = -1;
+// const EXPECTED_SCORE = -10;
 
-/**
- * Bot that makes random decisions
- *
- * @param yourBoard
- * @param opponentBoard
- * @param discardCard
- * @param drawCard
- * @param discardPile
- * @returns random turn
- */
+/* Best stats for competetive */
+const NOICE = 3;
+const EXPECTED_SCORE = 18;
+
 export const pickyBot = (
   yourBoard: Board,
   opponentBoard: Board,
