@@ -1,6 +1,8 @@
-// import { michaelBot as Bot1 } from './bots/michael';
+import { michaelBot as Bot1 } from './bots/michael';
+import { randomBot } from './bots/random';
 import { rushBot as Bot2 } from './bots/rush';
-import { randomBot as Bot1 } from './bots/random';
+import { gptBot } from './bots/gpt';
+import { pickyBot } from './bots/picky';
 
 import { simulateGame } from './game';
 import { showResults } from './game/showResults';

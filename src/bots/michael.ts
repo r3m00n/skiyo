@@ -32,7 +32,7 @@ export const michaelBot = (
   }
 
   // not yet drawn
-  if (!drawCard) {
+  if (drawCard === undefined) {
     if (discardCard < 4) {
       // Take from discard pile if card is less than 4
       return {
@@ -44,7 +44,8 @@ export const michaelBot = (
     return { action: 'draw' };
   } else {
     // already drawn
-    if (drawCard < 10) {
+    if (drawCard < 13) {
+      // this makes no sense
       return {
         action: 'takeFromDrawPile',
         location: findHighestCard(yourBoard),

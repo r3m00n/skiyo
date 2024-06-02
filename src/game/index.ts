@@ -7,9 +7,6 @@ import { convertToBoard } from '@/utils/convert-to-board';
 import { clearColumns } from '@/utils/clear-columns';
 import { currentScore } from '@/utils/current-score';
 import { isGameStart, nothingToFlip } from '@/utils/game-helpers';
-import { randomBot } from '@/bots/random';
-import { gptBot } from '@/bots/gpt';
-import { rushBot } from '@/bots/rush';
 
 export const simulateGame = (bot1: Bot, bot2: Bot, runs: number): Result[] => {
   let results: Result[] = [];
@@ -25,7 +22,7 @@ export const simulateGame = (bot1: Bot, bot2: Bot, runs: number): Result[] => {
     // Create new Deck
     deck = createDeck();
 
-    // Shuffle the d
+    // Shuffle the deck
     deck = shuffleDeck(deck);
 
     // Deal Cards
@@ -96,6 +93,12 @@ export const simulateGame = (bot1: Bot, bot2: Bot, runs: number): Result[] => {
           case 'takeFromDiscardPile':
             if (!location) {
               throw new Error('Location is required to takeFromDiscardPile');
+            }
+
+            if (drawCard !== undefined) {
+              throw new Error(
+                'Cannot take from discard pile when draw card is present'
+              );
             }
 
             boardP1[location[0]][location[1]].value =
@@ -203,6 +206,12 @@ export const simulateGame = (bot1: Bot, bot2: Bot, runs: number): Result[] => {
           case 'takeFromDiscardPile':
             if (!location) {
               throw new Error('Location is required to takeFromDiscardPile');
+            }
+
+            if (drawCard !== undefined) {
+              throw new Error(
+                'Cannot take from discard pile when draw card is present'
+              );
             }
 
             boardP2[location[0]][location[1]].value =
