@@ -1,6 +1,6 @@
 import { Card, Deck, SystemBoard, Turn } from '../types';
 import { validateTurn } from './validate-turn';
-import { shuffleDeck } from '../utils/system-helpers';
+import { shuffleDeck } from '../utils/game-helpers';
 
 export const handleTurn = (
   turn: Turn,

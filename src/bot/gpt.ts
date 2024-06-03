@@ -1,5 +1,5 @@
 import { Board, Card, DiscardPile, Turn } from '../types';
-import { isGameStart, flippableLocation } from '../utils/game-helpers';
+import { isGameStart, flippableLocation } from '../utils/bot-helpers';
 
 const findFaceDownCard = (board: Board): [number, number] | undefined => {
   for (let i = 0; i < board.length; i++) {

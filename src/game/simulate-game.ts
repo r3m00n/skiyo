@@ -8,9 +8,9 @@ import {
   isGameStart,
   score,
   visibleScore,
-} from '../utils/system-helpers';
+  clearColumns,
+} from '../utils/game-helpers';
 import { showBothBoards } from './show-board';
-import { clearColumns } from './clear-columns';
 
 export const singleGame = (bot1: Bot, bot2: Bot): Result => {
   let { deck, board1, board2 } = dealCards(createDeck());
