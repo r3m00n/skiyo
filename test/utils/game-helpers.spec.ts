@@ -9,7 +9,7 @@ import {
   score,
   clearColumns,
 } from '../../src/utils/game-helpers';
-import { Card, SystemBoard } from '../../src/types';
+import { Card, Deck, SystemBoard } from '../../src/types';
 
 describe('Utility Functions', () => {
   describe('createDeck', () => {
@@ -195,7 +195,7 @@ describe('Utility Functions', () => {
   });
 
   describe('clearColumns', () => {
-    it('clears columns where all cards are shown and have the same value', () => {
+    it('clears columns where all cards are shown and have the same value, and pushes them to the discard pile', () => {
       const board: SystemBoard = [
         [
           { value: 1, isShown: true },
@@ -213,7 +213,10 @@ describe('Utility Functions', () => {
           { value: 4, isShown: true },
         ],
       ];
-      const updatedBoard = clearColumns(board);
+      const discardPile: Deck = [];
+      const { board: updatedBoard, discardPile: updatedDiscardPile } =
+        clearColumns(board, discardPile);
+
       expect(updatedBoard).toEqual([
         [
           { value: 2, isShown: true },
@@ -226,6 +229,39 @@ describe('Utility Functions', () => {
           { value: 4, isShown: true },
         ],
       ]);
+      expect(updatedDiscardPile).toEqual([1, 1, 1]);
+    });
+
+    it('does not clear columns where all cards are not the same value', () => {
+      const board: SystemBoard = [
+        [
+          { value: 1, isShown: true },
+          { value: 1, isShown: true },
+          { value: 2, isShown: true },
+        ],
+        [
+          { value: 3, isShown: true },
+          { value: 3, isShown: true },
+          { value: 4, isShown: true },
+        ],
+      ];
+      const discardPile: Deck = [];
+      const { board: updatedBoard, discardPile: updatedDiscardPile } =
+        clearColumns(board, discardPile);
+
+      expect(updatedBoard).toEqual([
+        [
+          { value: 1, isShown: true },
+          { value: 1, isShown: true },
+          { value: 2, isShown: true },
+        ],
+        [
+          { value: 3, isShown: true },
+          { value: 3, isShown: true },
+          { value: 4, isShown: true },
+        ],
+      ]);
+      expect(updatedDiscardPile).toEqual([]);
     });
   });
 });
