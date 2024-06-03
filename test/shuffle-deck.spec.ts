@@ -1,5 +1,5 @@
-import { shuffleDeck } from '@/src/utils/shuffle-deck';
-import { createDeck } from '@/src/utils/create-deck';
+import { shuffleDeck } from '../src/utils/system-helpers';
+import { createDeck } from '../src/utils/system-helpers';
 
 describe('shuffleDeck', () => {
   it('should shuffle the deck of cards', () => {

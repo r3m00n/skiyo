@@ -1,4 +1,4 @@
-import { createDeck } from '@/src/utils/system-helpers';
+import { createDeck } from '../src/utils/system-helpers';
 
 describe('createDeck', () => {
   const deck = createDeck();

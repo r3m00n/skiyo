@@ -1,14 +1,12 @@
-import { Board, SystemBoard } from '@/types';
+import { Board, SystemBoard } from '../src/types';
 import {
   coinFlip,
   randomIndex,
   nothingToFlip,
   flippableLocation,
-  isGameStart,
   findHighestCard,
   findHigherThan,
-  oneMissing,
-} from '@/src/utils/game-helpers';
+} from '../src/utils/game-helpers';
 
 describe('coinFlip', () => {
   it('should return a random boolean', () => {
