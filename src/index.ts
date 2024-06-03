@@ -1,5 +1,5 @@
-import { battle } from '@/game/battle';
-import { showResult } from '@/game/show-result';
+import { battle } from './game/battle';
+import { showResult } from './game/show-result';
 
 import { michaelBot } from './bot/michael';
 import { randomBot } from './bot/random';

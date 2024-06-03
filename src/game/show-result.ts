@@ -1,4 +1,4 @@
-import { Result } from '@/types';
+import { Result } from '../types';
 
 export const showResult = (result: Result[]) => {
   const bot1Wins = result.filter((r) => r.points1 < r.points2).length;
@@ -21,13 +21,19 @@ export const showResult = (result: Result[]) => {
   );
 
   console.log(
-    `Bot${bot1Wins > bot2Wins ? 1 : 2} wins ${bot1Wins > bot2Wins ? bot1WinPercentage : bot2WinPercentage}% of the games!`
+    `Bot${bot1Wins > bot2Wins ? 1 : 2} wins ${
+      bot1Wins > bot2Wins ? bot1WinPercentage : bot2WinPercentage
+    }% of the games!`
   );
   console.log(
-    `B1 average: ${bot1AveragePoints.toString().padEnd(6)}| Min: ${bot1MinPoints.toString().padEnd(3)} Max: ${bot1MaxPoints.toString().padEnd(3)}`
+    `B1 average: ${bot1AveragePoints.toString().padEnd(6)}| Min: ${bot1MinPoints
+      .toString()
+      .padEnd(3)} Max: ${bot1MaxPoints.toString().padEnd(3)}`
   );
   console.log(
-    `B2 average: ${bot2AveragePoints.toString().padEnd(6)}| Min: ${bot2MinPoints.toString().padEnd(3)} Max: ${bot2MaxPoints.toString().padEnd(3)}`
+    `B2 average: ${bot2AveragePoints.toString().padEnd(6)}| Min: ${bot2MinPoints
+      .toString()
+      .padEnd(3)} Max: ${bot2MaxPoints.toString().padEnd(3)}`
   );
   console.log(`Average Turns: ${averageTurns}`);
 };

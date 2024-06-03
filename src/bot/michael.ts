@@ -1,9 +1,9 @@
-import { Board, Card, DiscardPile, Turn } from '@/types';
+import { Board, Card, DiscardPile, Turn } from '../types';
 import {
   isGameStart,
   flippableLocation,
   findHighestCard,
-} from '@/utils/game-helpers';
+} from '../utils/game-helpers';
 
 /**
  

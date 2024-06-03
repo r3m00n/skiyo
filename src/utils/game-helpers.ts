@@ -1,4 +1,4 @@
-import { Board, SystemBoard } from '@/types';
+import { Board } from '../types';
 
 /**
  * Returns a random boolean.

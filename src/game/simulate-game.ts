@@ -1,4 +1,4 @@
-import { Bot, Card, Deck, Result } from '@/types';
+import { Bot, Card, Deck, Result } from '../types';
 import { handleTurn } from './handle-turn';
 import {
   allTurned,
@@ -8,7 +8,7 @@ import {
   isGameStart,
   score,
   visibleScore,
-} from '@/utils/system-helpers';
+} from '../utils/system-helpers';
 import { showBothBoards } from './show-board';
 
 export const singleGame = (bot1: Bot, bot2: Bot): Result => {

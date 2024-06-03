@@ -5,7 +5,7 @@ import {
   SystemBoard,
   SystemCard,
   SystemColumn,
-} from '@/types';
+} from '../types';
 
 /**
  * Creates a deck of cards.

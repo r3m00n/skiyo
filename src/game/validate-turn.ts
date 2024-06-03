@@ -1,5 +1,5 @@
-import { Card, SystemBoard, Turn } from '@/types';
-import { isGameStart as checkGameStart } from '@/utils/system-helpers';
+import { Card, SystemBoard, Turn } from '../types';
+import { isGameStart as checkGameStart } from '../utils/system-helpers';
 
 export const validateTurn = (
   turn: Turn,
