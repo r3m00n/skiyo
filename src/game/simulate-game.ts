@@ -10,6 +10,7 @@ import {
   visibleScore,
 } from '../utils/system-helpers';
 import { showBothBoards } from './show-board';
+import { clearColumns } from './clear-columns';
 
 export const singleGame = (bot1: Bot, bot2: Bot): Result => {
   let { deck, board1, board2 } = dealCards(createDeck());
@@ -42,11 +43,14 @@ export const singleGame = (bot1: Bot, bot2: Bot): Result => {
         isPlayer1Turn,
       } = handleTurn(turn, board1, deck, discardPile, drawCard, isPlayer1Turn));
 
+      clearColumns(board1);
+
       if (isP1LastMove && turn.action !== 'draw') {
         isGameRunning = false;
       }
 
-      if (allTurned(board1)) {
+      // when all turned and other player didn't already fisnish
+      if (allTurned(board1) && !isP1LastMove) {
         isP2LastMove = true;
       }
     }
@@ -68,14 +72,14 @@ export const singleGame = (bot1: Bot, bot2: Bot): Result => {
         isPlayer1Turn,
       } = handleTurn(turn, board2, deck, discardPile, drawCard, isPlayer1Turn));
 
+      clearColumns(board2);
+
       if (isP2LastMove && turn.action !== 'draw') {
         isGameRunning = false;
       }
 
-      if (allTurned(board2)) {
-        // check ob anderer schon finished
-        // wenn nicht sagen dass er finished ist
-        // wenn verliert punkte verdoppeln
+      // when all turned and other player didn't already fisnish
+      if (allTurned(board2) && !isP2LastMove) {
         isP1LastMove = true;
       }
     }
@@ -92,20 +96,14 @@ export const singleGame = (bot1: Bot, bot2: Bot): Result => {
   }
 
   return {
-    points1: score(board1),
-    points2: score(board2),
-    turns,
-  };
-
-  return {
     points1:
-      isP1LastMove && score(board1) < score(board2)
-        ? score(board1)
-        : score(board1) * 2,
+      isP2LastMove && score(board1) > score(board2)
+        ? score(board1) * 2
+        : score(board1),
     points2:
-      isP2LastMove && score(board2) < score(board1)
-        ? score(board2)
-        : score(board2) * 2,
+      isP1LastMove && score(board2) > score(board1)
+        ? score(board2) * 2
+        : score(board2),
     turns,
   };
 };
