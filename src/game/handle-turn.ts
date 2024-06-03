@@ -39,12 +39,10 @@ export const handleTurn = (
       break;
 
     case 'takeFromDrawPile':
-      const tmp2 = board[location![0]][location![1]].value;
+      discardPile.push(board[location![0]][location![1]].value);
       board[location![0]][location![1]].value = drawCard as number;
       board[location![0]][location![1]].isShown = true;
-      discardPile.push(tmp2);
       drawCard = undefined;
-      // REFACTOR: make drawn card tmp
       break;
 
     case 'flip':
