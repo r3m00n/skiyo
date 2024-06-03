@@ -1,11 +1,11 @@
-import { Board, Card, DiscardPile, Turn } from '@/types';
+import { Board, Card, DiscardPile, Turn } from '../types';
 import {
   coinFlip,
   isGameStart,
   flippableLocation,
   nothingToFlip,
   randomIndex,
-} from '@/utils/game-helpers';
+} from '../utils/bot-helpers';
 
 /**
  * Bot that makes random decisions

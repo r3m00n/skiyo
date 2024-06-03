@@ -1,10 +1,10 @@
-import { Board, Card, DiscardPile, Turn } from '@/types';
+import { Board, Card, DiscardPile, Turn } from '../types';
 import {
   isGameStart,
   flippableLocation,
   findHighestCard,
-} from '@/utils/game-helpers';
-import { currentScore } from '@/utils/game-helpers';
+} from '../utils/bot-helpers';
+import { currentScore } from '../utils/bot-helpers';
 
 /* Insane Rerults even tho a little
    unrealistic in real life ^^ */

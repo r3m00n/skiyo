@@ -1,5 +1,5 @@
-import { Board, Card, DiscardPile, Turn } from '@/types';
-import { isGameStart, flippableLocation } from '@/utils/game-helpers';
+import { Board, Card, DiscardPile, Turn } from '../types';
+import { isGameStart, flippableLocation } from '../utils/bot-helpers';
 
 const NOICE = 4;
 

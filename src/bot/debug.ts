@@ -1,9 +1,5 @@
-import { Board, Card, DiscardPile, Turn } from '@/types';
-import {
-  isGameStart,
-  flippableLocation,
-  randomIndex,
-} from '@/utils/game-helpers';
+import { Board, Card, DiscardPile, Turn } from '../types';
+import { isGameStart, flippableLocation } from '../utils/bot-helpers';
 
 /**
  * Bot that never finishes

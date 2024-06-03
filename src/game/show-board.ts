@@ -1,4 +1,4 @@
-import { Board, Column, SystemBoard } from '@/types';
+import { Board, Column, SystemBoard } from '../types';
 
 /**
  * Displays the board.

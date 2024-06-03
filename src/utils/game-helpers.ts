@@ -1,60 +1,142 @@
-import { Board, SystemBoard } from '@/types';
+import {
+  Board,
+  Column,
+  Deck,
+  SystemBoard,
+  SystemCard,
+  SystemColumn,
+} from '../types';
 
 /**
- * Returns a random boolean.
+ * Creates a deck of cards.
+ * The deck consists of 5 cards with value -2, 10 cards each from -1 to 12, and 5 extra cards with value 0.
  *
- * @returns A random boolean.
+ * @returns {Deck} The created deck of cards.
  */
-export const coinFlip = () => Math.random() > 0.5;
+export const createDeck = (): Deck => {
+  const deck: Deck = [];
 
-/**
- * Returns a random index for a given length.
- *
- * @param length - The length of the array.
- * @returns A random index.
- */
-export const randomIndex = (length: number) =>
-  Math.floor(Math.random() * length);
+  // Add 5 cards with value -2
+  for (let i = 0; i < 5; i++) {
+    deck.push(-2);
+  }
 
-/**
- * Checks if there is a card to flip on the game board.
- * @param board The game board to check.
- * @returns Returns true if there is nothing to flip, false otherwise.
- */
-export const nothingToFlip = (board: Board) =>
-  // TODO: make it work for system board
-  board.every((column) => column.every((card) => card !== undefined));
-
-/**
- * Returns a flippable location on the board.
- *
- * @param board - The game board.
- * @returns An array containing the column and row indices of the flippable location.
- */
-export const flippableLocation = (board: Board): [number, number] => {
-  while (true) {
-    const column = randomIndex(board.length);
-    const card = randomIndex(3);
-    if (board[column][card] === undefined) {
-      return [column, card];
+  // Add 10 cards each from -1 to 12
+  for (let i = -1; i <= 12; i++) {
+    for (let j = 0; j < 10; j++) {
+      deck.push(i);
     }
   }
+
+  // Add 5 extra cards with value 0
+  for (let i = 0; i < 5; i++) {
+    deck.push(0);
+  }
+
+  return shuffleDeck(deck);
+};
+
+/**
+ * Shuffles the given deck of cards.
+ *
+ * @param {Deck} deck - The deck of cards to shuffle.
+ * @returns {Deck} The shuffled deck of cards.
+ */
+export const shuffleDeck = (deck: Deck): Deck => {
+  const shuffledDeck = [...deck];
+
+  for (let i = shuffledDeck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [shuffledDeck[i], shuffledDeck[j]] = [shuffledDeck[j], shuffledDeck[i]];
+  }
+
+  return shuffledDeck;
+};
+
+/**
+ * Deals Cards from the Deck for one Player and creates a System Board.
+ *
+ * @param deck The Deck of Cards to deal from.
+ * @returns An Object containing the updated Deck and the System Board.
+ */
+export const dealCards = (
+  deck: Deck
+): { deck: Deck; board1: SystemBoard; board2: SystemBoard } => {
+  const board1: SystemBoard = [];
+  const board2: SystemBoard = [];
+
+  const dealBoard = (board: SystemBoard): SystemBoard => {
+    for (let i = 0; i < 4; i++) {
+      const column = [];
+
+      for (let j = 0; j < 3; j++) {
+        const card: SystemCard = { value: deck.pop()!, isShown: false };
+        column.push(card);
+      }
+
+      board.push(column as SystemColumn);
+    }
+    return board;
+  };
+
+  dealBoard(board1);
+  dealBoard(board2);
+
+  return { deck, board1, board2 };
+};
+
+/**
+ * Calculates the current score of a board.
+ *
+ * @param board The board to calculate the score from.
+ * @returns The current visible score of the board.
+ */
+export const visibleScore = (board: SystemBoard): number => {
+  let score = 0;
+
+  board.forEach((column) => {
+    column.forEach((card) => {
+      if (card.isShown) {
+        score += card.value;
+      }
+    });
+  });
+
+  return score;
+};
+
+/**
+ * Converts a System Board to a Board.
+ *
+ * @param board board to convert
+ * @returns board in Board format
+ */
+export const convertToBoard = (board: SystemBoard): Board => {
+  const newBoard = (board as SystemBoard).map((column) => {
+    return column.map((card) => {
+      return card.isShown ? card.value : undefined;
+    }) as Column;
+  });
+
+  return newBoard;
 };
 
 /**
  * Returns true if bot has to flip one of it's initial two cards.
  *
  * @param board - The game board.
- * @returns boolean
+ * @returns true if the game has just started and the bot has to flip a card.
  */
-export const isGameStart = (board: Board): boolean => {
-  let undefinedCount = 0;
+export const isGameStart = (board: SystemBoard): boolean => {
+  let turnedCount = 0;
 
   for (const column of board) {
     for (const card of column) {
-      if (card !== undefined) {
-        undefinedCount++;
-        if (undefinedCount > 1) {
+      if (card.isShown) {
+        turnedCount++;
+
+        if (turnedCount > 1) {
           return false;
         }
       }
@@ -65,59 +147,62 @@ export const isGameStart = (board: Board): boolean => {
 };
 
 /**
- * Returns the location of the highest card on the board.
+ * Returns true if there is nothing to flip.
  *
  * @param board - The game board.
- * @returns The location of the highest card on the board.
+ * @returns true if there is nothing to flip.
  */
-export const findHighestCard = (board: Board): [number, number] => {
-  let highestCard = 0;
-  let highestCardLocation: [number, number] = [0, 0];
-
-  board.forEach((column, columnIndex) => {
-    column.forEach((card, cardIndex) => {
-      if (card !== undefined && card > highestCard) {
-        highestCard = card;
-        highestCardLocation = [columnIndex, cardIndex];
+export const allTurned = (board: SystemBoard): boolean => {
+  for (const column of board) {
+    for (const card of column) {
+      if (!card.isShown) {
+        return false;
       }
-    });
-  });
-
-  return highestCardLocation;
-};
-
-/**
- * Returns the locaion of the highest card that's higher than the given value.
- *
- * @param board Your Board
- * @param value Number to compare
- * @returns
- */
-export const findHigherThan = (
-  board: Board,
-  value: number
-): [number, number] | null => {
-  const location = findHighestCard(board);
-  if (board[location[0]][location[1]]! > value) {
-    return location;
+    }
   }
-  return null;
+
+  return true;
 };
 
 /**
- * Calculates the current score of a board.
+ * Calculates total score of board.
  *
- * @param board The board to calculate the score from.
- * @returns The current score.
+ * @param board The board to count.
+ * @returns The score.
  */
-export const currentScore = (board: Board): number => {
+export const score = (board: SystemBoard): number => {
   let score = 0;
 
-  board.forEach((column) => {
-    column.forEach((card) => {
-      if (card !== undefined) score += card;
-    });
-  });
+  for (const column of board) {
+    for (const card of column) {
+      score += card.value;
+    }
+  }
 
   return score;
+};
+
+/**
+ * Clears Columns that are shown and have the same value.
+ *
+ * @param board The System Board to clear columns from.
+ * @returns The updated System Board.
+ */
+export const clearColumns = (board: SystemBoard): SystemBoard => {
+  const newBoard: SystemBoard = [];
+
+  for (let i = 0; i < board.length; i++) {
+    const column = board[i];
+    const columnValues = column.map((card) => card.value);
+    const isColumnShown = column.every((card) => card.isShown);
+    const isColumnSameValue = columnValues.every(
+      (value) => value === columnValues[0]
+    );
+
+    if (!(isColumnShown && isColumnSameValue)) {
+      newBoard.push(column);
+    }
+  }
+
+  return newBoard;
 };

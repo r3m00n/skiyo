@@ -1,4 +1,4 @@
-import { Bot, Result } from '@/types';
+import { Bot, Result } from '../types';
 import { singleGame } from './simulate-game';
 
 export const battle = (
