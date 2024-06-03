@@ -188,21 +188,28 @@ export const score = (board: SystemBoard): number => {
  * @param board The System Board to clear columns from.
  * @returns The updated System Board.
  */
-export const clearColumns = (board: SystemBoard): SystemBoard => {
-  const newBoard: SystemBoard = [];
+export const clearColumns = (
+  oldBoard: SystemBoard,
+  discardPile: Deck
+): { board: SystemBoard; discardPile: Deck } => {
+  const board: SystemBoard = [];
 
-  for (let i = 0; i < board.length; i++) {
-    const column = board[i];
+  for (let i = 0; i < oldBoard.length; i++) {
+    const column = oldBoard[i];
     const columnValues = column.map((card) => card.value);
     const isColumnShown = column.every((card) => card.isShown);
     const isColumnSameValue = columnValues.every(
       (value) => value === columnValues[0]
     );
-
-    if (!(isColumnShown && isColumnSameValue)) {
-      newBoard.push(column);
+    // push the three cardsfrom the cleared column on discard pile
+    if (isColumnShown && isColumnSameValue) {
+      for (let j = 0; j < 3; j++) {
+        discardPile.push(column[j].value);
+      }
+    } else {
+      board.push(column);
     }
   }
 
-  return newBoard;
+  return { board, discardPile };
 };

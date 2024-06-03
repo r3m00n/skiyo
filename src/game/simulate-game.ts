@@ -43,7 +43,7 @@ export const singleGame = (bot1: Bot, bot2: Bot): Result => {
         isPlayer1Turn,
       } = handleTurn(turn, board1, deck, discardPile, drawCard, isPlayer1Turn));
 
-      clearColumns(board1);
+      ({ board: board1, discardPile } = clearColumns(board1, discardPile));
 
       if (isP1LastMove && turn.action !== 'draw') {
         isGameRunning = false;
@@ -72,7 +72,7 @@ export const singleGame = (bot1: Bot, bot2: Bot): Result => {
         isPlayer1Turn,
       } = handleTurn(turn, board2, deck, discardPile, drawCard, isPlayer1Turn));
 
-      clearColumns(board2);
+      ({ board: board2, discardPile } = clearColumns(board2, discardPile));
 
       if (isP2LastMove && turn.action !== 'draw') {
         isGameRunning = false;
