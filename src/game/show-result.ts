@@ -19,6 +19,13 @@ export const showResult = (result: Result[]) => {
   const averageTurns = round(
     result.reduce((acc, r) => acc + r.turns, 0) / result.length
   );
+  const shortestGame = result.reduce((acc, r) => {
+    if (r.turns !== 0) {
+      return Math.min(acc, r.turns);
+    }
+    return acc;
+  }, Infinity);
+  const longestGame = result.reduce((acc, r) => Math.max(acc, r.turns), 0);
 
   console.log(
     `Bot${bot1Wins > bot2Wins ? 1 : 2} wins ${
@@ -35,7 +42,11 @@ export const showResult = (result: Result[]) => {
       .toString()
       .padEnd(3)} Max: ${bot2MaxPoints.toString().padEnd(3)}`
   );
-  console.log(`Average Turns: ${averageTurns}`);
+  console.log(
+    `Avg. Turns: ${averageTurns.toString().padEnd(6)}| Min: ${shortestGame
+      .toString()
+      .padEnd(3)} Max: ${longestGame.toString().padEnd(3)}`
+  );
 };
 
 const round = (num: number): number => Math.round(num * 100) / 100;
