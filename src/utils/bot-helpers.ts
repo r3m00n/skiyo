@@ -121,3 +121,39 @@ export const currentScore = (board: Board): number => {
 
   return score;
 };
+
+/**
+ * Finds the location in a column where the third position should be cleared
+ * if the column contains exactly two occurrences of the specified card and
+ * the remaining position is undefined.
+ *
+ * @param board - A two-dimensional array representing the board, which contains
+ *                columns with up to three numbers or undefined values.
+ * @param card - The card number to check for in the columns.
+ * @returns A tuple containing the column index and the row index of the undefined
+ *          position if the criteria are met, or null if no such position exists.
+ */
+export const findLocationToClearColumn = (
+  board: Board,
+  card: number
+): [number, number] | null => {
+  for (let colIdx = 0; colIdx < board.length; colIdx++) {
+    const column = board[colIdx];
+    let count = 0;
+    let emptyIndex: number | null = null;
+
+    for (let rowIdx = 0; rowIdx < column.length; rowIdx++) {
+      if (column[rowIdx] === card) {
+        count++;
+      } else if (column[rowIdx] === undefined) {
+        emptyIndex = rowIdx;
+      }
+    }
+
+    if (count === 2 && emptyIndex !== null) {
+      return [colIdx, emptyIndex];
+    }
+  }
+
+  return null;
+};
