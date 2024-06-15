@@ -1,6 +1,8 @@
 import { Result } from '../types';
 
 export const showResult = (result: Result[]) => {
+  // console.log(result);
+
   const bot1Wins = result.filter((r) => r.points1 < r.points2).length;
   const bot2Wins = result.filter((r) => r.points2 < r.points1).length;
   const decidedGames = bot1Wins + bot2Wins;
@@ -12,10 +14,44 @@ export const showResult = (result: Result[]) => {
   const bot2AveragePoints = round(
     result.reduce((acc, r) => acc + r.points2, 0) / result.length
   );
-  const bot1MinPoints = result.reduce((acc, r) => Math.min(acc, r.points1), 0);
-  const bot2MinPoints = result.reduce((acc, r) => Math.min(acc, r.points2), 0);
-  const bot1MaxPoints = result.reduce((acc, r) => Math.max(acc, r.points1), 0);
-  const bot2MaxPoints = result.reduce((acc, r) => Math.max(acc, r.points2), 0);
+  const bot1MinPoints = result.reduce(
+    (acc, r) => Math.min(acc, r.points1),
+    Infinity
+  );
+  const bot2MinPoints = result.reduce(
+    (acc, r) => Math.min(acc, r.points2),
+    Infinity
+  );
+  const bot1MaxPoints = result.reduce(
+    (acc, r) => Math.max(acc, r.points1),
+    -Infinity
+  );
+  const bot2MaxPoints = result.reduce(
+    (acc, r) => Math.max(acc, r.points2),
+    -Infinity
+  );
+  const bot1AverageColumns = round(
+    result.reduce((acc, r) => acc + r.columns1, 0) / result.length
+  );
+  const bot2AverageColumns = round(
+    result.reduce((acc, r) => acc + r.columns2, 0) / result.length
+  );
+  const bot1MinColumns = result.reduce(
+    (acc, r) => Math.min(acc, r.columns1),
+    Infinity
+  );
+  const bot2MinColumns = result.reduce(
+    (acc, r) => Math.min(acc, r.columns2),
+    Infinity
+  );
+  const bot1MaxColumns = result.reduce(
+    (acc, r) => Math.max(acc, r.columns1),
+    -Infinity
+  );
+  const bot2MaxColumns = result.reduce(
+    (acc, r) => Math.max(acc, r.columns2),
+    -Infinity
+  );
   const averageTurns = round(
     result.reduce((acc, r) => acc + r.turns, 0) / result.length
   );
@@ -41,6 +77,16 @@ export const showResult = (result: Result[]) => {
     `B2 average: ${bot2AveragePoints.toString().padEnd(6)}| Min: ${bot2MinPoints
       .toString()
       .padEnd(3)} Max: ${bot2MaxPoints.toString().padEnd(3)}`
+  );
+  console.log(
+    `B1 ~ Cols.: ${bot1AverageColumns.toString().padEnd(6)}| Min: ${bot1MinColumns
+      .toString()
+      .padEnd(3)} Max: ${bot1MaxColumns.toString().padEnd(3)}`
+  );
+  console.log(
+    `B2 ~ Cols.: ${bot2AverageColumns.toString().padEnd(6)}| Min: ${bot2MinColumns
+      .toString()
+      .padEnd(3)} Max: ${bot2MaxColumns.toString().padEnd(3)}`
   );
   console.log(
     `Avg. Turns: ${averageTurns.toString().padEnd(6)}| Min: ${shortestGame
