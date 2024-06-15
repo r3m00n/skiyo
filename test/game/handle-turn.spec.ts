@@ -1,6 +1,4 @@
 import { handleTurn } from '../../src/game/handle-turn';
-import { shuffleDeck } from '../../src/utils/game-helpers';
-import { validateTurn } from '../../src/game/validate-turn';
 import { Card, Deck, SystemBoard, Turn } from '../../src/types';
 
 jest.mock('../../src/utils/game-helpers', () => ({
