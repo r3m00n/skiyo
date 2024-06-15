@@ -97,13 +97,15 @@ export const singleGame = (bot1: Bot, bot2: Bot): Result => {
 
   return {
     points1:
-      isP2LastMove && score(board1) > score(board2)
+      isP2LastMove && score(board2) < score(board1)
         ? score(board1) * 2
         : score(board1),
     points2:
-      isP1LastMove && score(board2) > score(board1)
+      isP1LastMove && score(board1) < score(board2)
         ? score(board2) * 2
         : score(board2),
     turns,
+    columns1: board1.length,
+    columns2: board2.length,
   };
 };

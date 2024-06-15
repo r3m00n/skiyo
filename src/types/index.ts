@@ -26,6 +26,8 @@ export type Result = {
   points1: number;
   points2: number;
   turns: number;
+  columns1: number;
+  columns2: number;
 };
 
 export type Bot = (
