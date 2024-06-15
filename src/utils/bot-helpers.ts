@@ -1,4 +1,4 @@
-import { Board } from '../types';
+import { Board, Deck, DiscardPile } from '../types';
 
 /**
  * Returns a random boolean.
@@ -156,4 +156,106 @@ export const findLocationToClearColumn = (
   }
 
   return null;
+};
+
+/**
+ * Returns number of turned Cards
+ *
+ * @param board
+ * @returns number of undefined Cards
+ */
+export const getHiddenCards = (board: Board): number => {
+  let hiddenCardsCount = 0;
+
+  for (const column of board) {
+    for (const card of column) {
+      if (card === undefined) {
+        hiddenCardsCount++;
+      }
+    }
+  }
+
+  return hiddenCardsCount;
+};
+
+/**
+ * Calculates the number of remaining cards of a specified value that are not shown
+ * on either board or in the discard pile.
+ *
+ * @param card - The value of the card to check remaining count for.
+ * @param board1 - The first player's board, represented as an array of columns.
+ * @param board2 - The second player's board, represented as an array of columns.
+ * @param discardPile - The discard pile, represented as an array of card values.
+ * @returns The number of remaining cards of the specified value.
+ *
+ * @throws Will throw an error if the card value is invalid.
+ */
+export const getRemaining = (
+  card: number,
+  board1: Board,
+  board2: Board,
+  discardPile: DiscardPile
+): number => {
+  // Helper function to count occurrences of a card in a board
+  const countCardInBoard = (board: Board, card: number): number => {
+    return board.flat().filter((c) => c === card).length;
+  };
+
+  // Count occurrences in both boards and discard pile
+  const countInBoard1 = countCardInBoard(board1, card);
+  const countInBoard2 = countCardInBoard(board2, card);
+  const countInDiscardPile = discardPile.filter((c) => c === card).length;
+
+  // Total count of the card in the game
+  let totalCards: number;
+  if (card === -2) {
+    totalCards = 5;
+  } else if (card === 0) {
+    totalCards = 15;
+  } else if (card === -1 || (card >= 1 && card <= 12)) {
+    totalCards = 10;
+  } else {
+    throw new Error('Invalid card value');
+  }
+
+  // Calculate remaining cards
+  const remainingCards =
+    totalCards - (countInBoard1 + countInBoard2 + countInDiscardPile);
+
+  return remainingCards;
+};
+
+/**
+ * Calculates the number of cards remaining in the draw pile.
+ *
+ * @param board1 - The first player's board, represented as an array of columns.
+ * @param board2 - The second player's board, represented as an array of columns.
+ * @param pile - The discard pile, represented as an array of card values.
+ * @returns The number of cards remaining in the draw pile.
+ *
+ * @remarks
+ * The total number of cards in the game is 150. This function calculates the
+ * remaining cards in the draw pile by subtracting the number of cards in the
+ * discard pile and the number of cards on both boards from the total.
+ */
+export const getCardsInDrawPile = (
+  board1: Board,
+  board2: Board,
+  pile: DiscardPile
+): number => {
+  // Helper function to count the number of cards on a board
+  const countCardsOnBoard = (board: Board): number => {
+    return board.flat().filter((c) => c !== undefined).length;
+  };
+
+  // Count cards on both boards
+  const cardsOnBoard1 = countCardsOnBoard(board1);
+  const cardsOnBoard2 = countCardsOnBoard(board2);
+
+  // Calculate total number of cards in the draw pile
+  const totalCards = 150;
+  const cardsInDrawPile =
+    totalCards - pile.length - cardsOnBoard1 - cardsOnBoard2;
+
+  return cardsInDrawPile;
 };
